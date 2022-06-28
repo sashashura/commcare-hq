@@ -1,5 +1,5 @@
 from corehq.apps.fixtures.dbaccessors import (
-    delete_all_fixture_data_types,
+    delete_all_fixture_data,
     delete_fixture_items_for_data_type,
     get_fixture_data_types,
     get_fixture_items_for_data_type,
@@ -32,6 +32,7 @@ class TestUpdateFixtures(BaseLinkedDomainTest):
             ],
         )
         cls.table.save()
+        cls.addClassCleanup(delete_all_fixture_data)
 
     def setUp(self):
         # Reset table content for each test
@@ -65,15 +66,6 @@ class TestUpdateFixtures(BaseLinkedDomainTest):
 
     def tearDown(self):
         delete_fixture_items_for_data_type(self.domain, self.table._id)
-
-    @classmethod
-    def tearDownClass(cls):
-        for data_type in get_fixture_data_types(cls.domain):
-            delete_fixture_items_for_data_type(cls.domain, data_type._id)
-        for data_type in get_fixture_data_types(cls.linked_domain):
-            delete_fixture_items_for_data_type(cls.linked_domain, data_type._id)
-        delete_all_fixture_data_types()
-        super().tearDownClass()
 
     def test_update_fixture(self):
         self.assertEqual([], get_fixture_data_types(self.linked_domain))
