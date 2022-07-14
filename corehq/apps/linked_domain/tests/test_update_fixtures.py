@@ -1,8 +1,4 @@
-from corehq.apps.fixtures.dbaccessors import (
-    delete_all_fixture_data,
-    delete_fixture_items_for_data_type,
-    get_fixture_items_for_data_type,
-)
+from corehq.apps.fixtures.dbaccessors import delete_all_fixture_data
 from corehq.apps.fixtures.models import (
     LookupTable,
     LookupTableRow,
@@ -65,9 +61,6 @@ class TestUpdateFixtures(BaseLinkedDomainTest):
         ]:
             item.save()
 
-    def tearDown(self):
-        delete_fixture_items_for_data_type(self.domain, self.table._migration_couch_id)
-
     def test_update_fixture(self):
         self.assertFalse(LookupTable.objects.by_domain(self.linked_domain).count())
 
@@ -78,24 +71,24 @@ class TestUpdateFixtures(BaseLinkedDomainTest):
         linked_types = LookupTable.objects.by_domain(self.linked_domain)
         self.assertEqual({'moons'}, {t.tag for t in linked_types})
         self.assertEqual({self.linked_domain}, {t.domain for t in linked_types})
-        items = get_fixture_items_for_data_type(self.linked_domain, linked_types[0]._migration_couch_id)
+        items = list(LookupTableRow.objects.iter_rows(self.linked_domain, table_id=linked_types[0].id))
         self.assertEqual({self.linked_domain}, {i.domain for i in items})
-        self.assertEqual({linked_types[0]._migration_couch_id}, {i.data_type_id for i in items})
+        self.assertEqual({linked_types[0].id}, {i.table_id for i in items})
         self.assertEqual([
             'Callisto', 'Europa', 'Io', 'Jupiter', 'Jupiter', 'Jupiter',
         ], sorted([
-            i.fields[field_name].field_list[0].field_value for i in items for field_name in i.fields.keys()
+            i.fields[field_name][0].value for i in items for field_name in i.fields.keys()
         ]))
 
         # Master domain's table and rows should be untouched
         master_types = LookupTable.objects.by_domain(self.domain)
         self.assertEqual({'moons'}, {t.tag for t in master_types})
         self.assertEqual({self.domain}, {t.domain for t in master_types})
-        master_items = get_fixture_items_for_data_type(self.domain, master_types[0]._migration_couch_id)
+        master_items = list(LookupTableRow.objects.iter_rows(self.domain, table_id=master_types[0].id))
         self.assertEqual([
             'Callisto', 'Europa', 'Io', 'Jupiter', 'Jupiter', 'Jupiter',
         ], sorted([
-            i.fields[field_name].field_list[0].field_value
+            i.fields[field_name][0].value
             for i in master_items
             for field_name in i.fields.keys()
         ]))
@@ -128,12 +121,12 @@ class TestUpdateFixtures(BaseLinkedDomainTest):
         linked_types = LookupTable.objects.by_domain(self.linked_domain)
         self.assertEqual(1, len(linked_types))
         self.assertEqual('moons', linked_types[0].tag)
-        items = get_fixture_items_for_data_type(self.linked_domain, linked_types[0]._migration_couch_id)
+        items = list(LookupTableRow.objects.iter_rows(self.linked_domain, table_id=linked_types[0].id))
         self.assertEqual(4, len(items))
         self.assertEqual([
             'Europa', 'Io', 'Jupiter', 'Jupiter', 'Naiad', 'Neptune', 'Neptune', 'Thalassa',
         ], sorted([
-            i.fields[field_name].field_list[0].field_value for i in items for field_name in i.fields.keys()
+            i.fields[field_name][0].value for i in items for field_name in i.fields.keys()
         ]))
 
     def test_update_global_only(self):
