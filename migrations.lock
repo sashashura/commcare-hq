@@ -373,6 +373,7 @@ fixtures
  0003_rm_blobdb_domain_fixtures
  0004_userlookuptablestatus
  0005_sqllookuptables (4 squashed migrations)
+ 0006_remove_lookuptablerowowner_couch_id
 form_processor
  0001_initial
  0002_xformattachmentsql
