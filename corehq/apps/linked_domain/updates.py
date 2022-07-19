@@ -28,7 +28,6 @@ from corehq.apps.integration.models import (
     GaenOtpServerSettings,
     HmacCalloutSettings,
 )
-from corehq.apps.fixtures.dbaccessors import delete_fixture_items_for_data_type
 from corehq.apps.fixtures.models import LookupTable, LookupTableRow
 from corehq.apps.fixtures.utils import clear_fixture_cache
 from corehq.apps.linked_domain.const import (
@@ -236,7 +235,6 @@ def update_fixture(domain_link, tag):
             domain=domain_link.linked_domain,
             table_id=linked_data_type.id
         ).delete()
-        delete_fixture_items_for_data_type(domain_link.linked_domain, linked_data_type._migration_couch_id)
     ignore_fields = {"id", "domain", "table", "table_id"}
     row_fields = [field.attname
         for field in LookupTableRow._meta.fields
