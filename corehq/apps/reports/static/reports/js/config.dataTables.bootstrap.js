@@ -47,6 +47,8 @@ hqDefine("reports/js/config.dataTables.bootstrap", [
         self.includeFilter = options.includeFilter || false;
         self.datatable = null;
         self.rendered = false;
+        self.scrollY = options.scrollY;
+        self.scrollCollapse = options.scrollCollapse;
 
         self.render_footer_row = (function () {
             var $dataTableElem = $(self.dataTableElem);
@@ -105,6 +107,12 @@ hqDefine("reports/js/config.dataTables.bootstrap", [
                     bSort: self.defaultSort,
                     bFilter: self.includeFilter,
                 };
+
+                if (self.scrollY !== null) {
+                    params.scrollY = self.scrollY;
+                    params.scrollCollapse = self.scrollCollapse;
+                }
+
                 if (self.aaSorting !== null || self.customSort !== null) {
                     params.aaSorting = self.aaSorting || self.customSort;
                 }

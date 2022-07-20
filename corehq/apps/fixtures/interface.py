@@ -79,6 +79,8 @@ class FixtureViewInterface(GenericTabularReport, FixtureInterface):
             'startAtRowNum': report_table.get('start_at_row', 0),
             'showAllRowsOption': report_table.get('show_all_rows'),
             'autoWidth': headers.auto_width,
+            'scrollY': '80vh',
+            'scrollCollapse': True,
         }
         if headers.render_aoColumns:
             data_tables_options.update({
