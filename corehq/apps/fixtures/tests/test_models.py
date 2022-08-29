@@ -229,7 +229,7 @@ class TestLookupTableRow(TestCase):
         self.assertEqual(row.fields["vera"][0].value, "What has become of you?")
         self.assertEqual(row.fields["vera"][0].properties, {})
         row.table.save(sync_to_couch=False)
-        row.save(sync_to_couch=False)
+        row.save()
         new = LookupTableRow.objects.get(id=row.id)
         self.assertEqual(new.fields, row.fields)
         self.assertIsNot(new.fields, row.fields)
@@ -277,7 +277,7 @@ class TestLookupTableRow(TestCase):
         }, sort_key=0)
         if save:
             row.table.save(sync_to_couch=False)
-            row.save(sync_to_couch=False)
+            row.save()
         return row
 
 
