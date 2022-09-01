@@ -48,6 +48,7 @@ IGNORE_MODELS = {
     "enterprise.EnterpriseMobileWorkerSettings",    # tied to an account, not a domain
     "enterprise.EnterprisePermissions",
     "export.DefaultExportSettings",     # tied to an account, not a domain
+    "export.EmailExportWhenDoneRequest",  # transient model tied to an export task
     "hqadmin.HistoricalPillowCheckpoint",
     "hqadmin.HqDeploy",
     "notifications.DismissedUINotify",
@@ -55,6 +56,8 @@ IGNORE_MODELS = {
     "notifications.Notification",
     "sessions.Session",
     "sites.Site",
+    "tastypie.ApiAccess",  # not tagged by domain
+    "tastypie.ApiKey",  # not domain-specific
     "toggle_ui.ToggleAudit",
     "two_factor.PhoneDevice",
     "users.Permission",
@@ -96,10 +99,8 @@ UNKNOWN_MODELS = {
     "django_prbac.Grant",
     "django_prbac.Role",
     "django_prbac.UserRole",
-    "export.EmailExportWhenDoneRequest",
     "export.IncrementalExport",
     "export.IncrementalExportCheckpoint",
-    "export.LedgerSectionEntry",
     "fhir.FHIRImportConfig",
     "fhir.FHIRImportResourceProperty",
     "fhir.FHIRImportResourceType",
@@ -163,8 +164,6 @@ UNKNOWN_MODELS = {
     "sso.TrustedIdentityProvider",
     "sso.UserExemptFromSingleSignOn",
     "start_enterprise.StartEnterpriseDeliveryReceipt",
-    "tastypie.ApiAccess",
-    "tastypie.ApiKey",
     "telerivet.IncomingRequest",
     "userreports.AsyncIndicator",
     "userreports.DataSourceActionLog",
@@ -173,10 +172,7 @@ UNKNOWN_MODELS = {
     "userreports.ReportComparisonException",
     "userreports.ReportComparisonTiming",
     "userreports.UCRExpression",
-    "users.DeactivateMobileWorkerTrigger",
-    "users.DomainRequest",
     "users.HQApiKey",
-    "users.Invitation",
     "users.UserHistory",
     "users.UserReportingMetadataStaging",
 }
