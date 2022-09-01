@@ -39,11 +39,11 @@ IGNORE_MODELS = {
     "admin.LogEntry",
     "api.ApiUser",
     "app_manager.ExchangeApplication",
-    "django_celery_results.TaskResult",
     "auth.Group",
     "auth.Permission",
     "django_celery_results.ChordCounter",
     "django_celery_results.GroupResult",
+    "django_celery_results.TaskResult",
     "dropbox.DropboxUploadHelper",
     "enterprise.EnterpriseMobileWorkerSettings",    # tied to an account, not a domain
     "enterprise.EnterprisePermissions",
@@ -57,11 +57,11 @@ IGNORE_MODELS = {
     "sites.Site",
     "toggle_ui.ToggleAudit",
     "two_factor.PhoneDevice",
+    "users.Permission",
     "util.BouncedEmail",
     "util.ComplaintBounceMeta",
     "util.PermanentBounceMeta",
     "util.TransientBounceEmail",
-    "users.Permission",
 }
 
 # TODO: determine which of these should not be ignored
